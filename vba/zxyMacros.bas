@@ -42,9 +42,7 @@ Function f_快捷键·显示()
     KeyCode:=BuildKeyCode(wdKeyControl, wdKeyAlt, wdKeyF)
 End Function
 
-
 Function f_快捷键·其它()
-
     KeyBindings.Add KeyCategory:=wdKeyCategoryMacro, _
     Command:="Normal.zxyMacros.zxySelectionFieldsUpdate", _
     KeyCode:=BuildKeyCode(wdKeyControl, wdKeyAlt, wdKeyF5)
@@ -58,7 +56,7 @@ Function f_快捷键·其它()
     KeyCode:=BuildKeyCode(wdKeyControl, wdKeyAlt, wdKeyPageUp)
 
     KeyBindings.Add KeyCategory:=wdKeyCategoryMacro, _
-    Command:="Normal.zxyMacros.switchOutlineView", _
+    Command:="Normal.zxyMacros.Toggle页面大纲视图", _
     KeyCode:=BuildKeyCode(wdKeyAlt, wdKeyF12)
 
     KeyBindings.Add KeyCategory:=wdKeyCategoryMacro, _
@@ -106,7 +104,7 @@ Function f_快捷键·其它()
     wdKeyCategoryCommand, Command:="EditReplace"
 
     KeyBindings.Add KeyCode:=BuildKeyCode(wdKeyControl, wdKeyAlt, wdKeyH), KeyCategory:= _
-    wdKeyCategoryMacro, Command:="Normal.zxyMacros.zxyViewMode"
+    wdKeyCategoryMacro, Command:="Normal.zxyMacros.Toggle页面间空白"
 
     KeyBindings.Add KeyCode:=BuildKeyCode(wdKeyAlt, wdKeyA), KeyCategory:= _
     wdKeyCategoryCommand, Command:="StartOfLine"
@@ -145,7 +143,7 @@ Function f_快捷键·其它()
     KeyCode:=BuildKeyCode(wdKeyAlt, wdKeyD)
 
     KeyBindings.Add KeyCategory:=wdKeyCategoryMacro, _
-    Command:="Normal.zxyMacros.切换显示·文档结构图", _
+    Command:="Normal.zxyMacros.Toggle导航窗格", _
     KeyCode:=BuildKeyCode(wdKeyAlt, wdKeyF4)
 
     KeyBindings.Add KeyCategory:=wdKeyCategoryMacro, _
@@ -436,7 +434,7 @@ Sub 扩展至行尾()
     ' Application.Run MacroName:="Normal.zxyMacros.无格式拷贝"
 End Sub
 
-Sub 切换隐藏显示修订()
+Sub Toggle显示修订评论()
     With ActiveWindow.View
         .ShowRevisionsAndComments = Not (.ShowRevisionsAndComments)
         .RevisionsView = wdRevisionsViewFinal
@@ -445,9 +443,7 @@ End Sub
 
 Sub 无格式粘贴()
     On Error Resume Next
-doit:
     Selection.PasteAndFormat (wdFormatPlainText)
-    On Error GoTo doit
 End Sub
 
 Sub 复制格式()
@@ -475,10 +471,9 @@ Sub 切换颜色()
     End If
 End Sub
 
-Sub 切换显示·文档结构图()
+Sub Toggle导航窗格()
     On Error Resume Next
     ActiveWindow.DocumentMap = Not (ActiveWindow.DocumentMap)
-    On Error Resume Next
 End Sub
 
 Sub s_Add快捷键()
@@ -517,7 +512,7 @@ Sub AutoNew()
     ActiveWindow.View.DisplayPageBoundaries = False
 End Sub
 
-Sub zxyViewMode()
+Sub Toggle页面间空白()
     ActiveWindow.View.DisplayPageBoundaries = Not ActiveWindow.View.DisplayPageBoundaries
 End Sub
 
@@ -539,13 +534,16 @@ Sub zxy取消边框()
         .DefaultBorderColor = -587137025
     End With
 End Sub
-Sub switchOutlineView()
+
+Sub Toggle页面大纲视图()
+    On Error Resume Next
     If ActiveWindow.ActivePane.View.Type = wdOutlineView Then
         ActiveWindow.ActivePane.View.Type = wdPrintView
     Else
         ActiveWindow.ActivePane.View.Type = wdOutlineView
     End If
 End Sub
+
 Sub zxyBrowseHeadingPrevious()
     With Application.Browser
         .Target = wdBrowseHeading
@@ -596,4 +594,3 @@ Sub 上一窗口()
     End If
     Windows(i).Activate
 End Sub
-
